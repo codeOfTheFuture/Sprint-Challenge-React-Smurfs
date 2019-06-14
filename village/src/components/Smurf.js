@@ -6,7 +6,7 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 10rem;
+  width: 20rem;
   height: 10rem;
   margin: 1rem;
   padding: 3rem;
@@ -21,6 +21,7 @@ const Smurf = props => {
         <h3>{props.name}</h3>
         <strong>{props.height} tall</strong>
         <p>{props.age} smurf years old</p>
+        <button onClick={e => props.deleteSmurf(e, props)}>Delete Smurf</button>
       </div>
     </Card>
   );

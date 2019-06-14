@@ -32,7 +32,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 80%;
-  margin: auto;
+  margin: 3rem auto;
 `;
 
 class App extends Component {
@@ -67,6 +67,17 @@ class App extends Component {
         this.setState({
           smurfs: res.data
         });
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteSmurf = (e, smurf) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:3333/smurfs/${smurf.id}`)
+      .then(res => {
+        console.log('deleted', res);
+        this.setState({ smurfs: res.data });
       })
       .catch(err => console.log(err));
   };
@@ -111,7 +122,13 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={props => <Smurfs {...props} smurfs={this.state.smurfs} />}
+            render={props => (
+              <Smurfs
+                {...props}
+                smurfs={this.state.smurfs}
+                deleteSmurf={this.deleteSmurf}
+              />
+            )}
           />
           <Route
             path="/smurf-form"
