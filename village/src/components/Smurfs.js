@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 
 import Smurf from './Smurf';
+
+const Heading = styled.h1`
+  margin-left: 3rem;
+  color: skyblue;
+`;
 
 class Smurfs extends Component {
   render() {
     return (
       <div className="Smurfs">
-        <h1>Smurf Village</h1>
+        <Heading>Smurf Village</Heading>
         <ul>
           {this.props.smurfs.map(smurf => {
             return (
@@ -26,7 +32,7 @@ class Smurfs extends Component {
 }
 
 Smurf.defaultProps = {
- smurfs: [],
+  smurfs: []
 };
 
 export default Smurfs;
