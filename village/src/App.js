@@ -5,6 +5,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import './App.css';
 import SmurfForm from './components/SmurfForm';
+import UpdateForm from './components/UpdateForm';
 import Smurfs from './components/Smurfs';
 
 const Nav = styled.nav`
@@ -36,10 +37,11 @@ const Container = styled.div`
 `;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      smurfs: []
+      smurfs: [],
+      activeSmurf: null
     };
   }
 
@@ -51,7 +53,6 @@ class App extends Component {
     axios
       .get('http://localhost:3333/smurfs')
       .then(res => {
-        console.log(res);
         this.setState({
           smurfs: res.data
         });
@@ -63,10 +64,26 @@ class App extends Component {
     axios
       .post('http://localhost:3333/smurfs', smurf)
       .then(res => {
-        console.log(res);
         this.setState({
           smurfs: res.data
         });
+        this.props.history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
+
+  setUpdateForm = (e, smurf) => {
+    e.preventDefault();
+    this.setState({ activeSmurf: smurf });
+    this.props.history.push('/update-form');
+  };
+
+  updateSmurf = smurf => {
+    axios
+      .put(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
+      .then(res => {
+        this.setState({ smurfs: res.data });
+        this.props.history.push('/');
       })
       .catch(err => console.log(err));
   };
@@ -76,7 +93,6 @@ class App extends Component {
     axios
       .delete(`http://localhost:3333/smurfs/${smurf.id}`)
       .then(res => {
-        console.log('deleted', res);
         this.setState({ smurfs: res.data });
       })
       .catch(err => console.log(err));
@@ -126,6 +142,7 @@ class App extends Component {
               <Smurfs
                 {...props}
                 smurfs={this.state.smurfs}
+                setUpdateForm={this.setUpdateForm}
                 deleteSmurf={this.deleteSmurf}
               />
             )}
@@ -133,6 +150,16 @@ class App extends Component {
           <Route
             path="/smurf-form"
             render={props => <SmurfForm {...props} addSmurf={this.addSmurf} />}
+          />
+          <Route
+            path="/update-form"
+            render={props => (
+              <UpdateForm
+                {...props}
+                activeSmurf={this.state.activeSmurf}
+                updateSmurf={this.updateSmurf}
+              />
+            )}
           />
         </Container>
       </div>

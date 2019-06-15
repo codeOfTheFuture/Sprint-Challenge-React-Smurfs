@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  width: 20rem;
+  height: 10rem;
   margin-top: 6rem;
   padding: 3rem;
   border: 1px solid skyblue;
@@ -25,6 +25,7 @@ const Button = styled.button`
   border: 1px solid skyblue;
   border-radius: 5px;
   font-size: 1rem;
+  cursor: pointer;
 
   &:hover {
     background: white;
